@@ -1,0 +1,33 @@
+ALPHA VALIDATION PLAN - NOT EXECUTED
+
+Use disposable Windows VMs, snapshots and backed-up test volumes. Never test repairs on the only copy of important data.
+
+MATRIX
+Windows 2000, XP, Vista, 7, 8/8.1, 10, 11 and relevant Server versions; x86/x64 where applicable; ARM64 separately. Test administrator and nonadministrator sessions, localized Windows and 32-bit launch contexts on 64-bit Windows. No combination is currently verified.
+
+NONDESTRUCTIVE CASES
+- Startup warnings and option 5 display expected paths.
+- Blank and invalid menu input runs no operation.
+- Inputs containing ampersands, pipes, redirections, percent signs, exclamation marks, quotes and parentheses never execute injected commands.
+- Lowercase drive letters normalize; C:, CC and command strings are rejected.
+- Blank input after previous selection cancels without stale values.
+- Confirmation requires the exact displayed token.
+- Missing or inaccessible tools fail visibly without a download.
+- Failed DISM help probe disables DISM but leaves SFC and CHKDSK available.
+- Trusted folder paths containing spaces and special characters work.
+- Read-only CHKDSK output and exit code remain visible.
+- Permission failure never produces a blanket success claim.
+- Exit returns to the calling shell.
+
+REPAIR CASES - DISPOSABLE SNAPSHOTS ONLY
+- Successful DISM proceeds to SFC; nonzero DISM result requires opt-in.
+- Legacy SFC installation-media prompts remain usable.
+- CHKDSK /f and /r require explicit confirmation.
+- Locked/system volumes expose native scheduling/dismount prompts.
+- Cancelling native prompts never produces a false scheduling claim.
+- Long or quiet operations are not killed automatically.
+- Unsupported, absent, encrypted and network volumes fail visibly.
+- No automatic reboot, dirty-bit change or global disk-check reset.
+
+RELEASE GATE
+Record OS/build, architecture, elevation, operation, native output and exit code. Redact private information. Mark only actually tested combinations as verified. Static checks are not Windows execution tests.
